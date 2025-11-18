@@ -78,3 +78,4 @@ end
 
 gem 'devise'
 gem "ruby_llm", "~> 1.6.4"
+gem 'faker'
