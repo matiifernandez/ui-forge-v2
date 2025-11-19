@@ -1,15 +1,30 @@
-<h1>Projects</h1>
-
-<ul>
+<div class="container">
+      <h1 class="my-4">My Projects</h1>
+      <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Create new project
+      </button>
+  <div class="cards">
   <% @projects.each do |project| %>
-    <li><%= project.title %><br><%= project.description %></li>
-    <%= link_to 'delete 🗑️', project_path(project), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete the project #{project.title} ?"} %>
-  <% end %>
-</ul>
+    <div class="project-item">
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Create new project
-</button>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgb(95, 97, 126))">
+        <%= project.title %> <br>
+        <%= project.components.count %> Components
+
+        <%= link_to '', project_components_path(project), class: "stretched-link" %>
+      </div>
+
+      <div class="delete-btn">
+        <%= link_to '🗑️', project_path(project),
+            class: 'text-decoration-none',
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete #{project.title}?" }
+        %>
+      </div>
+
+    </div>
+  <% end %>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -21,7 +36,6 @@
       </div>
 
       <%= simple_form_for @project do |f| %>
-
         <div class="modal-body">
           <%= f.input :title, placeholder: "title for your newly forged UI kit..." %>
           <%= f.input :description, placeholder: "be as descriptive as possible..." %>
@@ -35,12 +49,11 @@
             </div>
           </div>
         </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
           <%= f.button :submit, "Submit", class: "btn btn-primary" %>
         </div>
-      <% end %> </div>
+      <% end %>
+    </div>
   </div>
 </div>
