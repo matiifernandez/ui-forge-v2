@@ -1,2 +1,9 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= image_url("UIForge-logo-update.png") %>)">
+  <div class="container">
+    <h1>UI Forge helps you <strong>generating UI components</strong> for your <strong>projects</strong>!</h1>
+    <p><%= link_to "Sing in", new_user_session_path %> to get started</p>
+  </div>
+</div>
+<footer class="footer">
+  Crafted at <a href="https://www.lewagon.com/">LeWagon Tokyo</a>, in a week, without fighting by kizunaLingua team.
+</footer>

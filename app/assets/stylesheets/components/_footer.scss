@@ -1,0 +1,24 @@
+footer {
+  background-image: linear-gradient(to right, #5f617e, #7a7d9b);
+  color: white;
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 50px;
+
+  a {
+    text-decoration: none;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p:first-child {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    font-style: italic;
+    font-weight: bold;
+  }
+}
