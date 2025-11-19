@@ -23,8 +23,17 @@
       <%= simple_form_for @project do |f| %>
 
         <div class="modal-body">
-          <%= f.input :title %>
-          <%= f.input :description %>
+          <%= f.input :title, placeholder: "title for your newly forged UI kit..." %>
+          <%= f.input :description, placeholder: "be as descriptive as possible..." %>
+
+          <div class="row">
+            <div class="col-6">
+              <%= f.input :primary_color, as: :color %>
+            </div>
+            <div class="col-6">
+              <%= f.input :secondary_color, as: :color %>
+            </div>
+          </div>
         </div>
 
         <div class="modal-footer">
