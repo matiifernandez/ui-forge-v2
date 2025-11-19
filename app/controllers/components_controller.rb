@@ -22,6 +22,7 @@ class ComponentsController < ApplicationController
   def new
     @project = Project.find(params[:project_id])
     @component = Component.new
+    @message = Message.new
   end
 
   def create
@@ -30,6 +31,9 @@ class ComponentsController < ApplicationController
     @component = Component.new(component_params)
     @component.project = @project
     if @component.save
+      @chat = Chat.new
+      @chat.component = @component
+      @chat.save
       redirect_to project_component_path(@project, @component)
     else
       render :new, status: :unprocessable_entity
