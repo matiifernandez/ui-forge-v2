@@ -48,6 +48,20 @@ class ComponentsController < ApplicationController
     redirect_to component_path, notice: "the component #{@component.name} was deleted"
   end
 
+  def update
+    @project = Project.find(params[:project_id])
+    @component = Component.find(params[:id])
+    new_html = params.dig(:component, :html_code)
+    new_css  = params.dig(:component, :css_code)
+    @component.html_code = new_html
+    @component.css_code = new_css
+    if @component.save
+      redirect_to project_component_path(@project, @component), notice: "Component updated!"
+    else
+      redirect_back fallback_location: project_component_path(@project, @component), alert: "Could not update component."
+    end
+  end
+
   private
 
   def set_project

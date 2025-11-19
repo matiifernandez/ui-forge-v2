@@ -17,8 +17,11 @@
               <h5>CSS</h5>
               <pre><code><%= parsed["css"] %></code></pre>
             </div>
-            <div class="col-8">
+            <div class="col-6">
               <iframe srcdoc="<style><%= parsed['css'] %></style><%= parsed['html'] %>" style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
+          </div>
+          <div class="col-2">
+            <%= button_to "Save to Components", project_component_path(@project, @component), method: :patch, params: { component: { html_code: parsed["html"], css_code: parsed["css"] }}, class: "btn btn-primary" %>
           </div>
         </div>
       <% else %>

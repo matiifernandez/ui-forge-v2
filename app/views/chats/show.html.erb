@@ -3,6 +3,6 @@
     <%= render 'messages/messages', messages: @chat.messages %>
   </div>
   <div id="new_message_container">
-    <%= render 'messages/form', chat: @chat, message: @message %>
+    <%= render 'messages/form', chat: @chat, message: @message, component: @component, project: @project %>
   </div>
 </div>
