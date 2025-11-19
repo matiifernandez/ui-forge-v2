@@ -1,8 +1,8 @@
 <div class="container">
-  <div id="messages">
+  <div id="messages" class="mt-3">
     <%= render 'messages/messages', messages: @chat.messages %>
   </div>
-  <div id="new_message_container">
+  <div id="new_message_container" class="mb-3">
     <%= render 'messages/form', chat: @chat, message: @message, component: @component, project: @project %>
   </div>
 </div>
