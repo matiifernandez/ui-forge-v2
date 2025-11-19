@@ -16,7 +16,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :components, only: [:destroy] do
+  resources :components, only: [:destroy]
+  resources :chats, only: [:show] do
     resources :messages, only: [:create]
   end
 end
