@@ -5,6 +5,8 @@ class ComponentsController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     @components = @project.components
+    @component = Component.new
+    @message = Message.new
   end
 
   def show
@@ -34,11 +36,12 @@ class ComponentsController < ApplicationController
       @chat = Chat.new
       @chat.component = @component
       @chat.save
-      redirect_to project_component_path(@project, @component)
+      redirect_to chat_path(@chat)
     else
       render :new, status: :unprocessable_entity
     end
   end
+
   def destroy
     @component = Component.find(params[:id])
     @component.destroy
@@ -52,6 +55,6 @@ class ComponentsController < ApplicationController
   end
 
   def component_params
-    params.require(:component).permit(:name, :html_code, :css_code)
+    params.require(:component).permit(:name)
   end
 end

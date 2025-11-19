@@ -1,0 +1,4 @@
+<%= simple_form_for [chat, message] do |f| %>
+  <%= f.input :content, label: "What kind of component", required: true, placeholder: "Describe the component you want to create" %>
+  <%= f.button :submit, 'Ask LLM', class: 'btn btn-primary' %>
+<% end %>

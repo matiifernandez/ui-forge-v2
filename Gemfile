@@ -81,3 +81,6 @@ gem "ruby_llm", "~> 1.6.4"
 gem 'faker'
 gem 'htmlbeautifier'
 gem "cssbeautify"
+gem "kramdown"
+gem "rouge"
+gem "kramdown-parser-gfm"
