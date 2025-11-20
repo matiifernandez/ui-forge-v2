@@ -3,6 +3,7 @@ class Project < ApplicationRecord
   include RubyLLM::Helpers
   belongs_to :user
   has_many :components, dependent: :destroy
+  has_one_attached :photo
   validates :title, presence: true, uniqueness: {scope: :user_id}, length: {maximum: 50}
   validates :description, presence: true
   attribute :primary_color, :string, default: "#5f617e"
