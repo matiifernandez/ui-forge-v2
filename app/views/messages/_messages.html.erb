@@ -32,7 +32,6 @@
           </div>
           <div class="col-2">
             <%= button_to "Save to Components", project_component_path(@project, @component), method: :patch, params: { component: { html_code: parsed["html"], css_code: parsed["css"] }}, class: "btn btn-primary" %>
-            <%= link_to "Return to Project", project_components_path(@project), class: "btn btn-primary mt-3" %>
           </div>
         </div>
       <% else %>

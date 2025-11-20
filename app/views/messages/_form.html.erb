@@ -1,4 +1,7 @@
 <%= simple_form_for [chat, message] do |f| %>
   <%= f.input :content, label: "What kind of component", required: true, placeholder: "Describe the component you want to create" %>
-  <%= f.button :submit, 'Ask LLM', class: 'btn btn-primary' %>
+  <div class="d-flex justify-content-between align-items-center">
+    <%= f.button :submit, 'Forge Component', class: 'btn btn-primary' %>
+    <%= link_to "Return to Components", project_components_path(@project), class: "btn btn-primary" %>
+  </div>
 <% end %>

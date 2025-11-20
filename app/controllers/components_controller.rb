@@ -12,8 +12,10 @@ class ComponentsController < ApplicationController
   def show
     @component = Component.find(params[:id])
     @project = Project.find(params[:project_id])
-    @formatted_html = HtmlBeautifier.beautify(@component.html_code)
-    @formatted_css = CssBeautify.beautify(@component.css_code)
+    if @component.html_code && @component.css_code
+      @formatted_html = HtmlBeautifier.beautify(@component.html_code)
+      @formatted_css = CssBeautify.beautify(@component.css_code)
+    end
   end
 
   def preview
