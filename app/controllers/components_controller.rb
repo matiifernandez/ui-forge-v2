@@ -3,15 +3,25 @@ class ComponentsController < ApplicationController
   before_action :set_project, only: %i[new create]
 
   def index
-    @project = Project.find(params[:project_id])
+    @project = current_user.projects.find_by(id: params[:project_id])
+    unless @project
+      flash[:alert] = "You are not authorized to view this component."
+      redirect_to projects_path
+      return
+    end
     @components = @project.components
     @component = Component.new
     @message = Message.new
   end
 
   def show
+    @project = current_user.projects.find_by(id: params[:project_id])
+    unless @project
+      flash[:alert] = "You are not authorized to view this component."
+      redirect_to projects_path
+      return
+    end
     @component = Component.find(params[:id])
-    @project = Project.find(params[:project_id])
     if @component.html_code && @component.css_code
       @formatted_html = HtmlBeautifier.beautify(@component.html_code)
       @formatted_css = CssBeautify.beautify(@component.css_code)
