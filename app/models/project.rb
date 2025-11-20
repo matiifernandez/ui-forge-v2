@@ -35,7 +35,7 @@ class Project < ApplicationRecord
     llm_response = @ruby_llm_chat.with_instructions(system_instructions).with_schema(response_schema).ask(user_message.content)
       chat.messages.create!(
       role: "assistant",
-      content: llm_response.content.to_s
+      content: llm_response.content.to_json
     )
     update_component_from_response(component, llm_response.content)
   end
@@ -69,8 +69,11 @@ class Project < ApplicationRecord
   - Do NOT use markdown.
   - Do NOT use code fences (no ```).
   - Do NOT add commentary or explanations.
+  - Do NOT add comments to the code.
   - Only return valid JSON.
   - Escape quotes inside the HTML and CSS values."
+  - Do not add newline characters. e.g. \n
+  - If you import a font, make sure you put it at the top of the css.
   PROMPT
   end
 
