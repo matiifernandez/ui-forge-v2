@@ -21,7 +21,7 @@ class Project < ApplicationRecord
   end
 
   def generate_component_and_chat(comp_name)
-    component = self.components.create!(name: "Suggested #{comp_name}")
+    component = self.components.create!(name: comp_name.capitalize)
     chat = component.create_chat!
     system_instructions = create_prompt_for(comp_name)
     user_prompt_content = message_prompt(comp_name)
