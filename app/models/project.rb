@@ -48,7 +48,8 @@ class Project < ApplicationRecord
 
   def message_prompt(component_name)
     "You are generating a #{component_name} based on the #{primary_color} for background and #{secondary_color} for accents.
-    if the #{component_name} is a banner, you want to add the title having into account the readability and contrast."
+    the component has to rely in the #{self.description} to know what the user wants.
+    If the #{component_name} is a banner, you want to add the #{self.title} having into account the readability and contrast."
   end
 
   def create_prompt_for(component)
