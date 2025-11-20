@@ -12,7 +12,8 @@ class Message < ApplicationRecord
 
   def user_message_limit
     if chat.messages.where(role: "user").count >= MAX_USER_MESSAGES
-      errors.add(:content, "You can only send #{MAX_USER_MESSAGES} messages per chat.")
+      errors.add(:base, "You can only send #{MAX_USER_MESSAGES} messages per chat.")
+      errors.add(:content, "too many messages")
     end
   end
 end

@@ -1,17 +1,33 @@
-<%= simple_form_for [chat, message],
-    html: {
-        data: {
-            controller: "form-submit",
-            turbo_stream: true
-        }
-    } do |f| %>
-  <%= f.input :content, label: "What kind of component", required: true,
-   placeholder: "Describe the component you want to create", input_html: {
-    data: {
-        action: "keydown->form-submit#submitOnEnter"
-    } }%>
-  <div class="d-flex justify-content-between align-items-center">
-    <%= f.button :submit, 'Forge Component', class: 'btn btn-primary' %>
-    <%= link_to "Return to Components", project_components_path(@project), class: "btn btn-primary" %>
-  </div>
-<% end %>
+<div id="message_form">
+  <%= simple_form_for [chat, message],
+      html: {
+          data: {
+              controller: "form-submit",
+              turbo_stream: true
+          },
+          novalidate: true
+      } do |f| %>
+
+    <% if f.object.errors[:base].any? %>
+      <div
+        data-controller="alert"
+        data-alert-duration-value="3000"
+        class="alert alert-danger mb-3"
+        role="alert"
+      >
+        <%= f.error_notification message: f.object.errors[:base].to_sentence, hide_when_empty: true %>
+      </div>
+    <% end %>
+
+    <%= f.input :content, label: "What kind of component", required: true,
+      placeholder: "Describe the component you want to create", validate: false, error: false, input_html: {
+      data: {
+          action: "keydown->form-submit#submitOnEnter"
+      } }%>
+    <div class="d-flex justify-content-between align-items-center">
+      <%= f.button :submit, 'Forge Component', class: 'btn btn-primary' %>
+      <%# Use the project local variable %>
+      <%= link_to "Return to Components", project_components_path(@project), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

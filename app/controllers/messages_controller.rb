@@ -36,7 +36,20 @@ PROMPT
         format.turbo_stream { render 'create' }
       end
     else
-      render 'chats/show', status: :unprocessable_entity
+      respond_to do |format|
+        # Fallback for non-Turbo requests (optional, but good practice)
+        format.html { render 'chats/show', status: :unprocessable_entity }
+
+        # Turbo Stream for handling validation errors
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            # NOTE: Use the ID of the container you wrapped your form in (e.g., <div id="message_form">)
+            "message_form",
+            partial: "messages/form",
+            locals: { chat: @chat, message: @message, project: @project }
+          ), status: :unprocessable_entity
+        end
+      end
     end
   end
 
