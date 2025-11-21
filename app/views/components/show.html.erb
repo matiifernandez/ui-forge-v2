@@ -18,7 +18,7 @@
               <% end %>
             </style>
           </head><body>
-            <%= @component.html_code.gsub(/href="#"/, 'href="javascript:void(0)"') %>
+            <%= @component.html_code&.gsub(/href="#"/, 'href="javascript:void(0)"') %>
             <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
           </body>
         </html>" style="width: 100%; height: 300px; border: 1px solid #505050ff;; border-radius: 8px;"></iframe>

@@ -7,7 +7,6 @@
           },
           novalidate: true
       } do |f| %>
-
     <% if f.object.errors[:base].any? %>
       <div
         data-controller="alert"
@@ -18,15 +17,16 @@
         <%= f.error_notification message: f.object.errors[:base].to_sentence, hide_when_empty: true %>
       </div>
     <% end %>
-
-    <%= f.input :content, label: "What kind of component", required: true,
+    <div class="message-box">
+      <%= f.input :content, label: "What kind of component", required: true,
       placeholder: "Describe the component you want to create", validate: false, error: false, input_html: {
       data: {
           action: "keydown->form-submit#submitOnEnter"
       } }%>
-    <div class="d-flex justify-content-between align-items-center">
-      <%= link_to "Return to Components", project_components_path(@project), class: "btn btn-primary" %>
-      <%= f.button :submit, 'Forge Component', class: 'btn btn-primary component-button' %>
-    </div>
-  <% end %>
+      <div class="d-flex justify-content-between align-items-center">
+        <%= link_to "Return to Components", project_components_path(@project), class: "btn btn-primary" %>
+        <%= f.button :submit, 'Forge Component', class: 'btn btn-primary component-button' %>
+      </div>
+    <% end %>
+  </div>
 </div>
