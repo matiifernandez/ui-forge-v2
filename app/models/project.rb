@@ -45,6 +45,7 @@ class Project < ApplicationRecord
     component.update!(
       html_code: html_and_css['html'],
       css_code: html_and_css['css'],
+      bootstrap: html_and_css['bootstrap'],
     )
   end
 
@@ -63,10 +64,12 @@ class Project < ApplicationRecord
 
   {
     "html": "",
-    "css": "/* CSS code here, no markdown, no backticks */"
+    "css": "/* CSS code here, no markdown, no backticks */",
+    "bootstrap": boolean value
   }
 
   Requirements:
+  - Critically, analyze the user's request. If the user mentions 'Bootstrap' or uses any standard Bootstrap class names (like 'btn-primary', 'container', 'card', 'col-6'), you MUST set the 'bootstrap' field in the output schema to true. Otherwise, set it to false.
   - Do NOT use markdown.
   - Do NOT use code fences (no ```).
   - Do NOT add commentary or explanations.
@@ -82,6 +85,7 @@ class Project < ApplicationRecord
     schema "html_and_css", description: "An object with html and css code" do
       string :html, description: "Plain html code"
       string :css, description: "Plain css code"
+      boolean :bootstrap, description: "Whether the component uses bootstrap or not"
     end
   end
 end
