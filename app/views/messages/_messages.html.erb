@@ -9,33 +9,8 @@
     <% parsed = JSON.parse(message.content) rescue nil %>
     <div class="d-flex justify-content-start mb-5">
       <div class="px-3 pb-0 pt-3 w-100">
-        <% if parsed.present? && parsed["html"].present? && parsed["css"].present? %>
-          <div class="row">
-            <div class="col-4 code-card">
-              <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="code-nav nav-link active" id="nav-html<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-html<%= message.id %>" type="button" role="tab" aria-controls="nav-html<%= message.id %>" aria-selected="true">HTML</button>
-                  <button class="code-nav nav-link" id="nav-css<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-css<%= message.id %>" type="button" role="tab" aria-controls="nav-css<%= message.id %>" aria-selected="false">CSS</button>
-                </div>
-              </nav>
-              <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-html<%= message.id %>" role="tabpanel" aria-labelledby="nav-html<%= message.id %>-tab" tabindex="0">
-                  <pre><code class="language-html"><%= HtmlBeautifier.beautify(parsed["html"]) %></code></pre>
-                </div>
-                <div class="tab-pane fade" id="nav-css<%= message.id %>" role="tabpanel" aria-labelledby="nav-css<%= message.id %>-tab" tabindex="0">
-                  <pre><code class="language-css"><%= CssBeautify.beautify(parsed["css"]) %></code></pre>
-                </div>
-              </div>
-            </div>
-            <div class="col-6">
-              <iframe srcdoc="<style><%= parsed['css'] %></style><%= parsed['html'] %>" style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
-          </div>
-          <div class="col-2">
-            <%= button_to "Save to Components", project_component_path(@project, @component), method: :patch, params: { component: { html_code: parsed["html"], css_code: parsed["css"] }}, class: "btn btn-primary" %>
-          </div>
-        </div>
-      <% elsif parsed.present? && parsed["html"].present? && parsed["bootstrap"] %>
-        <%
+        <% if parsed.present? && parsed["html"].present? && parsed["bootstrap"] %>
+          <%
         preview_html = parsed['html'].gsub(/href="#"/, 'href="javascript:void(0)"')
         preview_css = parsed['css'].present? ? parsed['css'] : ''
         iframe_content = "
@@ -56,25 +31,50 @@
           </html>
         "
       %>
-        <div class="row">
-          <div class="col-4 code-card">
-            <nav>
-              <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="code-nav nav-link active" id="nav-html<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-html<%= message.id %>" type="button" role="tab" aria-controls="nav-html<%= message.id %>" aria-selected="true">HTML</button>
-                <button class="code-nav nav-link" id="nav-css<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-css<%= message.id %>" type="button" role="tab" aria-controls="nav-css<%= message.id %>" aria-selected="false">CSS</button>
-              </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-              <div class="tab-pane fade show active" id="nav-html<%= message.id %>" role="tabpanel" aria-labelledby="nav-html<%= message.id %>-tab" tabindex="0">
-                <pre><code class="language-html"><%= HtmlBeautifier.beautify(parsed["html"]) %></code></pre>
-              </div>
-              <div class="tab-pane fade" id="nav-css<%= message.id %>" role="tabpanel" aria-labelledby="nav-css<%= message.id %>-tab" tabindex="0">
-                <pre><code class="language-css"><%= parsed["css"].present? ? CssBeautify.beautify(parsed["css"]) : "" %></code></pre>
+          <div class="row">
+            <div class="col-4 code-card">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="code-nav nav-link active" id="nav-html<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-html<%= message.id %>" type="button" role="tab" aria-controls="nav-html<%= message.id %>" aria-selected="true">HTML</button>
+                  <button class="code-nav nav-link" id="nav-css<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-css<%= message.id %>" type="button" role="tab" aria-controls="nav-css<%= message.id %>" aria-selected="false">CSS</button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-html<%= message.id %>" role="tabpanel" aria-labelledby="nav-html<%= message.id %>-tab" tabindex="0">
+                  <pre><code class="language-html"><%= HtmlBeautifier.beautify(parsed["html"]) %></code></pre>
+                </div>
+                <div class="tab-pane fade" id="nav-css<%= message.id %>" role="tabpanel" aria-labelledby="nav-css<%= message.id %>-tab" tabindex="0">
+                  <pre><code class="language-css"><%= parsed["css"].present? ? CssBeautify.beautify(parsed["css"]) : "" %></code></pre>
+                </div>
               </div>
             </div>
+            <div class="col-6">
+              <iframe srcdoc="<%= h(iframe_content.strip) %>" style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
+            </div>
+            <div class="col-2">
+              <%= button_to "Save to Components", project_component_path(@project, @component), method: :patch, params: { component: { html_code: parsed["html"], css_code: parsed["css"] }}, class: "btn btn-primary" %>
+            </div>
           </div>
-          <div class="col-6">
-            <iframe srcdoc="<%= h(iframe_content.strip) %>" style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
+        <% elsif parsed.present? && parsed["html"].present? && parsed["css"].present? %>
+          <div class="row">
+            <div class="col-4 code-card">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="code-nav nav-link active" id="nav-html<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-html<%= message.id %>" type="button" role="tab" aria-controls="nav-html<%= message.id %>" aria-selected="true">HTML</button>
+                  <button class="code-nav nav-link" id="nav-css<%= message.id %>-tab" data-bs-toggle="tab" data-bs-target="#nav-css<%= message.id %>" type="button" role="tab" aria-controls="nav-css<%= message.id %>" aria-selected="false">CSS</button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-html<%= message.id %>" role="tabpanel" aria-labelledby="nav-html<%= message.id %>-tab" tabindex="0">
+                  <pre><code class="language-html"><%= HtmlBeautifier.beautify(parsed["html"]) %></code></pre>
+                </div>
+                <div class="tab-pane fade" id="nav-css<%= message.id %>" role="tabpanel" aria-labelledby="nav-css<%= message.id %>-tab" tabindex="0">
+                  <pre><code class="language-css"><%= CssBeautify.beautify(parsed["css"]) %></code></pre>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <iframe srcdoc="<style><%= parsed['css'] %></style><%= parsed['html'] %>" style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 8px;"></iframe>
           </div>
           <div class="col-2">
             <%= button_to "Save to Components", project_component_path(@project, @component), method: :patch, params: { component: { html_code: parsed["html"], css_code: parsed["css"] }}, class: "btn btn-primary" %>
