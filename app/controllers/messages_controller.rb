@@ -9,10 +9,12 @@ Always return your answer as a strict JSON object with this exact structure:
 
 {
   "html": "<!-- HTML code here, no markdown, no backticks -->",
-  "css": "/* CSS code here, no markdown, no backticks */"
+  "css": "/* CSS code here, no markdown, no backticks */",
+  "bootstrap": boolean value
 }
 
 Requirements:
+- Critically, analyze the user's request. If the user mentions 'Bootstrap' or uses any standard Bootstrap class names (like 'btn-primary', 'container', 'card', 'col-6'), you MUST set the 'bootstrap' field in the output schema to true. Otherwise, set it to false.
 - Do NOT use markdown.
 - Do NOT use code fences (no ```).
 - Do NOT add commentary or explanations.
@@ -34,6 +36,11 @@ PROMPT
       @ruby_llm_chat = RubyLLM.chat
       build_conversation_history
       response = @ruby_llm_chat.with_instructions(instructions).with_schema(response_schema).ask(@message.content)
+      if response.content["bootstrap"]
+        @component.update(bootstrap: true)
+      else
+        @component.update(bootstrap: false)
+      end
       Message.create(role: "assistant", content: response.content.to_json, chat: @chat)
       respond_to do |format|
         format.html { redirect_to chat_messages_path(@chat) }
@@ -72,6 +79,7 @@ PROMPT
     schema "html_and_css", description: "An object with html and css code" do
       string :html, description: "Plain html code"
       string :css, description: "Plain css code"
+      boolean :bootstrap, description: "Whether the component uses bootstrap or not"
     end
   end
 
