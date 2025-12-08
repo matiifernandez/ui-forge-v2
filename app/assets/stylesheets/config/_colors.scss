@@ -1,10 +1,33 @@
-// Define variables for your color scheme
+// Dark theme color scheme - VSCode inspired
 
-// For example:
-$red: #FD1015;
-$blue: #5F617E;
-$yellow: #FFC65A;
-$orange: #E67E22;
-$green: #1EDD88;
-$gray: #0E0000;
-$light-gray: #F4F4F4;
+// Background colors
+$bg-darkest: #0d1117;      // GitHub dark
+$bg-dark: #161b22;         // Main background
+$bg-medium: #21262d;       // Cards, inputs
+$bg-light: #30363d;        // Hover states
+
+// Text colors
+$text-primary: #e6edf3;    // Main text
+$text-secondary: #8b949e;  // Muted text
+$text-muted: #6e7681;      // Very muted
+
+// Accent colors - Emerald green primary
+$accent-primary: #10B981;  // Primary accent (emerald)
+$accent-green: #10B981;    // Success (same as primary)
+$accent-blue: #58a6ff;     // Links, info
+$accent-yellow: #d29922;   // Warnings
+$accent-red: #f85149;      // Errors, danger
+$accent-purple: #a371f7;   // Special highlights
+
+// Borders
+$border-color: #30363d;
+$border-light: #21262d;
+
+// Legacy variable mappings for Bootstrap
+$red: $accent-red;
+$blue: $accent-blue;
+$yellow: $accent-yellow;
+$orange: $accent-yellow;
+$green: $accent-green;
+$gray: $text-primary;
+$light-gray: $bg-dark;

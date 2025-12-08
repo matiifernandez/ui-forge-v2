@@ -1,3 +1,4 @@
+<% project ||= @project %>
 <div id="message_form">
   <%= simple_form_for [chat, message],
       html: {
@@ -18,15 +19,15 @@
       </div>
     <% end %>
     <div class="message-box">
-      <%= f.input :content, label: "What kind of component", required: true,
-      placeholder: "Describe the component you want to create", validate: false, error: false, input_html: {
+      <%= f.input :content, label: "What would you like to modify?", required: true,
+      placeholder: "Describe the changes you want to make...", validate: false, error: false, input_html: {
       data: {
           action: "keydown->form-submit#submitOnEnter"
       } }%>
-      <div class="d-flex justify-content-between align-items-center">
-        <%= link_to "Return to Components", project_components_path(@project), class: "btn btn-primary" %>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <%= link_to "← Return to Components", project_components_path(project), class: "btn btn-secondary" %>
         <%= f.button :submit, 'Forge Component', class: 'btn btn-primary component-button' %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>

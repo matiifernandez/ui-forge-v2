@@ -1,0 +1,7 @@
+<%# Shared iframe preview partial for components - uses src to avoid quote escaping issues %>
+<iframe
+  src="<%= preview_project_component_path(component.project, component) %>"
+  data-controller="iframe-resize"
+  data-iframe-resize-min-height-value="60"
+  class="component-iframe"
+  loading="lazy"></iframe>

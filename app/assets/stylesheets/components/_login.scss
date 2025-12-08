@@ -1,9 +1,61 @@
+// Dark theme login/signup container
 .container-login {
-  background-color: #9b9c9f50;
-  border: solid 1px #888888;
-  width: 600px;
-  margin: auto;
-  margin-top: 40px;
-  padding: 8px;
-  border-radius: 16px;
+  background: rgba($bg-dark, 0.9);
+  border: 1px solid $border-color;
+  width: 100%;
+  max-width: 480px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+
+  h2 {
+    color: $text-primary;
+    font-family: $headers-font;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .form-control {
+    background: $bg-medium;
+    border-color: $border-color;
+    color: $text-primary;
+
+    &:focus {
+      background: $bg-medium;
+      border-color: $accent-primary;
+      color: $text-primary;
+    }
+
+    &::placeholder {
+      color: $text-muted;
+    }
+  }
+
+  label {
+    color: $text-secondary;
+  }
+
+  .btn-primary {
+    background: $accent-primary;
+    border-color: $accent-primary;
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    margin-top: 1rem;
+
+    &:hover {
+      background: lighten($accent-primary, 8%);
+      border-color: lighten($accent-primary, 8%);
+    }
+  }
+
+  a {
+    color: $accent-primary;
+
+    &:hover {
+      color: lighten($accent-primary, 10%);
+    }
+  }
 }

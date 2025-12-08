@@ -1,6 +1,4 @@
-require 'ruby_llm/schema'
 class Project < ApplicationRecord
-  include RubyLLM::Helpers
   belongs_to :user
   has_many :components, dependent: :destroy
   has_one_attached :photo
@@ -9,23 +7,26 @@ class Project < ApplicationRecord
   attribute :primary_color, :string, default: "#5f617e"
   attribute :secondary_color, :string, default: "#E5E5E5"
 
-  after_create_commit :generate_default_components
+  after_create :generate_default_components
 
   private
 
   def generate_default_components
-    @ruby_llm_chat = RubyLLM.chat(model: ENV["AI_MODEL"])
-
     components = ['banner', 'navbar', 'button']
 
     components.each do |comp_name|
+      # Create fresh chat for each component to avoid context pollution
       generate_component_and_chat(comp_name)
+    rescue StandardError => e
+      Rails.logger.error "Failed to generate #{comp_name}: #{e.message}"
     end
+  rescue StandardError => e
+    Rails.logger.error "Error in generate_default_components: #{e.class} - #{e.message}"
   end
 
   def generate_component_and_chat(comp_name)
     component = self.components.create!(name: comp_name.capitalize)
-    chat = component.create_chat!
+    chat = component.chat # Chat is created automatically by Component callback
     system_instructions = create_system_prompt
     user_prompt_content = message_prompt(comp_name)
     user_message = chat.messages.create!(
@@ -33,59 +34,104 @@ class Project < ApplicationRecord
       content: user_prompt_content
     )
 
-    llm_response = @ruby_llm_chat.with_instructions(system_instructions).with_schema(response_schema).ask(user_message.content)
+    # Create fresh LLM chat for each component with JSON mode
+    ruby_llm_chat = RubyLLM.chat(model: ENV["AI_MODEL"], provider: :openai, assume_model_exists: true)
+    ruby_llm_chat.with_params(response_format: { type: 'json_object' })
+    llm_response = ruby_llm_chat.with_instructions(system_instructions).ask(user_message.content)
+
+    parsed_content = parse_ai_response(llm_response&.content)
+
+    if parsed_content && parsed_content['html'].present?
       chat.messages.create!(
-      role: "assistant",
-      content: llm_response.content.to_json
-    )
-    update_component_from_response(component, llm_response.content)
+        role: "assistant",
+        content: parsed_content.to_json
+      )
+      update_component_from_response(component, parsed_content)
+    else
+      Rails.logger.error "Invalid AI response for #{comp_name}: #{llm_response&.content.inspect}"
+      create_placeholder_component(component, chat, comp_name)
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error generating #{comp_name}: #{e.class} - #{e.message}"
+    create_placeholder_component(component, chat, comp_name) if component&.persisted?
+  end
+
+  def create_placeholder_component(component, chat, comp_name)
+    placeholder_html = "<div class=\"#{comp_name}-placeholder\">#{comp_name.capitalize} - Edit to customize</div>"
+    placeholder_css = ".#{comp_name}-placeholder { padding: 2rem; background: #f0f0f0; border: 2px dashed #ccc; text-align: center; color: #666; font-family: sans-serif; }"
+
+    component.update!(html_code: placeholder_html, css_code: placeholder_css, bootstrap: false)
+    chat&.messages&.create(role: "assistant", content: { html: placeholder_html, css: placeholder_css, bootstrap: false }.to_json)
+  end
+
+  def parse_ai_response(content)
+    return content if content.is_a?(Hash)
+    return nil if content.blank?
+
+    json_str = content.to_s
+
+    # First try: look for JSON object directly
+    json_str_clean = json_str.gsub(/```json\s*/i, '').gsub(/```\s*/, '')
+    if json_str_clean =~ /\{[\s\S]*"html"[\s\S]*"css"[\s\S]*\}/
+      json_match = json_str_clean.match(/(\{[\s\S]*"html"[\s\S]*"css"[\s\S]*\})/)
+      if json_match
+        return JSON.parse(json_match[1])
+      end
+    end
+
+    # Second try: extract HTML and CSS from markdown code blocks
+    html_match = content.match(/```html\s*([\s\S]*?)```/i)
+    css_match = content.match(/```css\s*([\s\S]*?)```/i)
+
+    if html_match && html_match[1].present?
+      html_code = html_match[1].strip
+      css_code = css_match ? css_match[1].strip : ''
+      bootstrap = html_code.include?('btn-') || html_code.include?('container') || html_code.include?('row') || html_code.include?('col-')
+
+      return {
+        'html' => html_code,
+        'css' => css_code,
+        'bootstrap' => bootstrap
+      }
+    end
+
+    # Third try: just parse as JSON
+    JSON.parse(json_str_clean)
+  rescue JSON::ParserError => e
+    Rails.logger.error "Failed to parse AI JSON response: #{e.message}"
+    Rails.logger.error "Raw content: #{content.inspect}"
+    nil
   end
 
   def update_component_from_response(component, html_and_css)
     component.update!(
-      html_code: html_and_css['html'],
-      css_code: html_and_css['css'],
-      bootstrap: html_and_css['bootstrap'],
+      html_code: clean_escaped_quotes(html_and_css['html']),
+      css_code: clean_escaped_quotes(html_and_css['css']),
+      bootstrap: html_and_css['bootstrap'] || false,
     )
   end
 
+  def clean_escaped_quotes(str)
+    return str if str.nil?
+    # Remove double-escaped quotes that AI sometimes produces
+    str.gsub(/\\"/, '"').gsub(/\\'/, "'")
+  end
+
   def message_prompt(component_name)
-    "You are generating a #{component_name} based on the #{primary_color} for background and #{secondary_color} for accents.
-    the component has to rely in the #{self.description} to know what the user wants.
-    If the #{component_name} is a banner, you want to add the #{self.title} having into account the readability and contrast."
+    <<~PROMPT
+      Generate a #{component_name} component.
+      Background color: #{primary_color}
+      Accent color: #{secondary_color}
+      Project: #{self.title} - #{self.description}
+
+      RESPOND WITH ONLY THIS JSON FORMAT, NOTHING ELSE:
+      {"html": "<your html here>", "css": "<your css here>", "bootstrap": false}
+
+      Your response must start with { and end with }. No explanations.
+    PROMPT
   end
 
   def create_system_prompt
-    <<~PROMPT
-  "You are an expert Front-end Developer.
-  Your job is to generate UI components based on the user’s description.
-
-  Always return your answer as a strict JSON object with this exact structure:
-
-  {
-    "html": "",
-    "css": "/* CSS code here, no markdown, no backticks */",
-    "bootstrap": boolean value
-  }
-
-  Requirements:
-  - Critically, analyze the user's request. If the user mentions 'Bootstrap' or uses any standard Bootstrap class names (like 'btn-primary', 'container', 'card', 'col-6'), you MUST set the 'bootstrap' field in the output schema to true. Otherwise, set it to false.
-  - Do NOT use markdown.
-  - Do NOT use code fences (no ```).
-  - Do NOT add commentary or explanations.
-  - Do NOT add comments to the code.
-  - Only return valid JSON.
-  - Escape quotes inside the HTML and CSS values."
-  - Do not add newline characters. e.g. \n
-  - If you import a font, make sure you put it at the top of the css.
-  PROMPT
-  end
-
-  def response_schema
-    schema "html_and_css", description: "An object with html and css code" do
-      string :html, description: "Plain html code"
-      string :css, description: "Plain css code"
-      boolean :bootstrap, description: "Whether the component uses bootstrap or not"
-    end
+    'You output only valid JSON. No explanations. No markdown. Response format: {"html": "...", "css": "...", "bootstrap": false}'
   end
 end

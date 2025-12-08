@@ -8,16 +8,20 @@
   <div class="cards mb-2">
     <% @projects.each do |project| %>
       <div class="project-item">
-        <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= project.photo.attached? ? cl_image_path(project.photo.key) : asset_path('anvil.jpg') %>')">
+        <div class="card-category <%= 'no-image' unless project.photo.attached? %>" style="<%= "background-image: url('#{cl_image_path(project.photo.key)}')" if project.photo.attached? %>">
           <%= project.title %> <br>
           <%= project.components.count %> Components
           <%= link_to '', project_components_path(project), class: "stretched-link" %>
         </div>
         <div class="delete-btn">
-          <%= link_to '🗑️', project_path(project),
-            class: 'text-decoration-none',
-            data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete #{project.title}?" }
-        %>
+          <%= link_to project_path(project),
+            class: 'text-decoration-none delete-link',
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure you want to delete '#{project.title}'? This will also delete all its components."
+            } do %>
+            <i class="fas fa-trash-alt"></i>
+          <% end %>
         </div>
       </div>
     <% end %>
@@ -31,25 +35,7 @@
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Create new project</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <%= simple_form_for @project do |f| %>
-        <div class="modal-body">
-          <%= f.input :title, placeholder: "title for your newly forged UI kit..." %>
-          <%= f.input :description, placeholder: "be as descriptive as possible..." %>
-          <div class="row">
-            <div class="col-6">
-              <%= f.input :primary_color, as: :color %>
-            </div>
-            <div class="col-6">
-              <%= f.input :secondary_color, as: :color %>
-            </div>
-          </div>
-          <%= f.input :photo, as: :file %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <%= f.button :submit, "Submit", class: "btn btn-primary" %>
-        </div>
-      <% end %>
+      <%= render 'form' %>
     </div>
   </div>
 </div>

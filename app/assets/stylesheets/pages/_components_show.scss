@@ -1,3 +1,80 @@
+// Dark theme component show page
 .component-name {
-  color: white;
+  color: $text-primary;
+  font-family: $headers-font;
+  font-weight: 600;
+}
+
+// Component preview container
+.component-preview {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: $bg-medium;
+  padding: 0.75rem;
+}
+
+// Iframe styling - background is transparent, white bg is on the component wrapper inside
+.component-iframe {
+  width: 100%;
+  height: 60px; // Initial height, adjusted by JS on load
+  min-height: 40px;
+  max-height: 600px;
+  border: none;
+  display: block;
+  background: transparent;
+  transition: height 0.1s ease-out;
+}
+
+// Code display in component show
+.code-card pre {
+  background: $bg-darkest;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 1rem;
+  max-height: 400px;
+  overflow: auto;
+
+  code {
+    font-family: $code-font;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: $text-primary;
+  }
+}
+
+// Copy button styling
+.code-card .btn-secondary {
+  background: $bg-medium;
+  border-color: $border-color;
+  color: $text-secondary;
+  font-size: 0.8rem;
+
+  &:hover {
+    background: $bg-light;
+    color: $text-primary;
+  }
+}
+
+// Delete component button - override Bootstrap outline-danger
+.delete-component-btn {
+  background: transparent !important;
+  border: none !important;
+  color: $text-secondary !important;
+  padding: 0.25rem 0.5rem !important;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+    color: $accent-red !important;
+    background: rgba($accent-red, 0.1) !important;
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
 }

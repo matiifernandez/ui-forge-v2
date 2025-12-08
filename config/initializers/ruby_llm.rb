@@ -1,5 +1,5 @@
 RubyLLM.configure do |config|
-  # config.openai_api_key = ENV["GITHUB_TOKEN"]
-  # config.openai_api_base = "https://models.inference.ai.azure.com"
-  config.openai_api_key = ENV["OPENAI_API_KEY"]
+  # Use Groq as the AI provider (OpenAI-compatible API)
+  config.openai_api_base = 'https://api.groq.com/openai/v1'
+  config.openai_api_key = ENV["GROQ_API_KEY"]
 end

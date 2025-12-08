@@ -1,19 +1,31 @@
+// Dark theme projects index page
 .card-category {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  background: $bg-dark;
+  border: 1px solid $border-color;
+  transition: all 0.3s ease;
+
+  .card-body {
+    color: $text-primary;
+  }
+
+  .card-title {
+    font-family: $headers-font;
+    color: $text-primary;
+  }
+
+  .card-text {
+    color: $text-secondary;
+  }
 }
 
 .card-category:hover {
-  transform: translate(-10px, -10px) scale(1.05);
-  border-image: linear-gradient(45deg, #ff6f00, #ff8f00, #ffa000, #ffb300, #ff6f00);
-  border-image-slice: 1;
-  box-shadow: 0 12px 24px rgba(255, 69, 0, 0.6) inset, 0 8px 16px rgba(255, 69, 0, 0.4);
-  border-color: transparent;
-}
-
-body {
-  background-color: rgb(37, 37, 37);
+  transform: translateY(-8px);
+  border-color: $accent-primary;
+  box-shadow: 0 12px 32px rgba($accent-primary, 0.2);
 }
 
 .project-header {
-  color: white;
+  color: $text-primary;
+  font-family: $headers-font;
+  font-weight: 600;
 }

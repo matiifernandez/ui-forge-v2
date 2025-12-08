@@ -1,36 +1,83 @@
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= image_url("forge.jpg") %>)">
+<div class="hero-section">
   <div class="container">
-    <h1>UIForge</h1>
-    <p>From Concept to Component in Seconds.</p>
-    <%= link_to "Sign Up", new_user_session_path, class: "btn btn-primary" %>
+    <div class="hero-content">
+      <div class="hero-badge">AI-Powered UI Generation</div>
+      <h1 class="hero-title">
+        <span class="text-gradient">UIForge</span>
+      </h1>
+      <p class="hero-subtitle">From concept to component in seconds.<br>Describe what you need, get production-ready code.</p>
+      <div class="hero-cta">
+        <% if user_signed_in? %>
+          <%= link_to "Go to Projects", projects_path, class: "btn btn-primary btn-lg" %>
+        <% else %>
+          <%= link_to "Get Started", new_user_session_path, class: "btn btn-primary btn-lg" %>
+        <% end %>
+        <%= link_to "View on GitHub", "https://github.com/matiifernandez/ui-forge", class: "btn btn-outline-light btn-lg", target: "_blank" %>
+      </div>
+      <div class="hero-code">
+        <div class="code-window">
+          <div class="code-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+            <span class="code-title">prompt.txt</span>
+          </div>
+          <div class="code-body">
+            <code><span class="code-comment">// Your prompt</span><br>
+<span class="code-string">"Create a pricing card with<br>
+three tiers, hover effects,<br>
+and a highlighted popular option"</span></code>
+          </div>
+        </div>
+        <div class="code-arrow">→</div>
+        <div class="code-window">
+          <div class="code-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+            <span class="code-title">component.html</span>
+          </div>
+          <div class="code-body">
+            <code><span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-string">"pricing-card"</span><span class="code-tag">&gt;</span><br>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-string">"tier"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/div&gt;</span><br>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-string">"tier popular"</span><span class="code-tag">&gt;</span><br>
+<span class="code-tag">&lt;/div&gt;</span></code>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="container">
-  <div class="home-cards">
-    <div class="home-card">
-      <%= image_tag "fire.jpg", alt: "Fire from a forge" %>
-      <h4>UIForge: Component Generation, Reimagined.</h4>
-      <p>Simply envision your design, and the UIForge handles the implementation.</p>
-    </div>
-    <div class="home-card">
-      <%= image_tag "hammer.jpg", alt: "Fire from a forge" %>
-      <h4>Skip the Boilerplate. Ship the Features.</h4>
-      <p>Spend your time coding the core logic, not the UI boilerplate.</p>
-    </div>
-    <div class="home-card">
-      <%= image_tag "forge-fire.jpg", alt: "Fire from a forge" %>
-      <h4>Your Personal AI UI Co-Pilot.</h4>
-      <p>UIForge: Your indispensable partner for turning ideas into functional projects.</p>
+
+<div class="features-section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Generation</h3>
+        <p>Describe your component in plain language and get HTML + CSS in seconds. No more starting from scratch.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>Project Context</h3>
+        <p>AI understands your project colors and description to generate components that match your design system.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Copy & Ship</h3>
+        <p>One-click copy for both HTML and CSS. Preview in real-time, then paste directly into your project.</p>
+      </div>
     </div>
   </div>
 </div>
-<footer class="footer">
-  <div class="home-footer">
-    <%= link_to projects_path, class: "home-brand" do %>
-      <%= image_tag "UIForge-logo-update.png", class: "rounded-5 mr-3" %>
-    <% end %>
-    <%= link_to "https://github.com/matiifernandez/ui-forge" do %>
-      <i class="fab fa-github"></i>
-    <% end %>
+
+<footer class="landing-footer">
+  <div class="container">
+    <div class="footer-content">
+      <span class="footer-text">Built with Rails + AI</span>
+      <%= link_to "https://github.com/matiifernandez/ui-forge", target: "_blank" do %>
+        <i class="fab fa-github"></i>
+      <% end %>
+    </div>
   </div>
 </footer>

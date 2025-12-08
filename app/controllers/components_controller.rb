@@ -9,7 +9,7 @@ class ComponentsController < ApplicationController
       redirect_to projects_path
       return
     end
-    @components = @project.components
+    @components = @project.components.order(:created_at)
     @component = Component.new
     @message = Message.new
   end
@@ -40,15 +40,11 @@ class ComponentsController < ApplicationController
   end
 
   def create
-    @project.user = current_user
     @project = Project.find(params[:project_id])
     @component = Component.new(component_params)
     @component.project = @project
     if @component.save
-      @chat = Chat.new
-      @chat.component = @component
-      @chat.save
-      redirect_to chat_path(@chat)
+      redirect_to chat_path(@component.chat) # Chat created automatically by Component callback
     else
       render :new, status: :unprocessable_entity
     end

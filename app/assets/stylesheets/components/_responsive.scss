@@ -1,0 +1,124 @@
+// Responsive styles for mobile devices
+
+// Tablet and below
+@media (max-width: 991px) {
+  // Components index - hide sidebar on tablet
+  .main-col {
+    display: none;
+  }
+
+  .col-9 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  // Component show - stack code and preview
+  .component-preview {
+    margin-bottom: 1rem;
+  }
+}
+
+// Mobile
+@media (max-width: 767px) {
+  // Navbar
+  .navbar-lewagon {
+    padding: 0.5rem;
+
+    .navbar-brand-text {
+      font-size: 1rem;
+    }
+
+    .nav-action span {
+      display: none;
+    }
+
+    .nav-action {
+      padding: 0.5rem;
+
+      i {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  // Projects index
+  .cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card-category {
+    height: 150px;
+  }
+
+  .project-header {
+    font-size: 1.25rem;
+  }
+
+  // Components index
+  .title-bar {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start !important;
+
+    h1 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .component-card {
+    padding: 0.75rem;
+  }
+
+  .component-name-box h4 {
+    font-size: 0.9rem;
+  }
+
+  // Chat
+  .chat-container {
+    height: calc(100vh - 70px);
+  }
+
+  .messages-scroll {
+    padding: 0;
+  }
+
+  // Chat messages - stack code and preview vertically
+  .message-box .row {
+    flex-direction: column;
+  }
+
+  .message-box .col-4,
+  .message-box .col-6,
+  .message-box .col-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  // Code card
+  .code-card pre {
+    max-height: 200px;
+  }
+
+  // Modal
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
+
+// Small mobile
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .new-component-btn {
+    font-size: 0.8rem;
+  }
+}

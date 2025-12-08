@@ -1,10 +1,2 @@
-body {
-  font-family: "Texturina", serif;
-  font-optical-sizing: auto;
-  font-weight: weight;
-  font-style: normal;
-}
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: "Texturina", serif !important;
-}
+// Body and heading fonts are now configured in _fonts.scss and _bootstrap_variables.scss
+// This file is kept for backwards compatibility but no longer overrides fonts

@@ -1,20 +1,72 @@
+// Dark theme navbar - minimal design
 .navbar-lewagon {
+  display: flex;
   justify-content: space-between;
-  background: #5F617E;
-  background: linear-gradient(261deg,rgba(95, 97, 126, 1) 0%, rgba(69, 69, 82, 1) 50%, rgba(17, 17, 66, 1) 100%);
+  align-items: center;
+  background: $bg-dark;
+  border-bottom: 1px solid $border-color;
   position: sticky;
   top: 0;
   z-index: 1000;
+  padding: 0.5rem 1rem;
+
+  .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
+.navbar-brand-text {
+  text-decoration: none;
+  font-family: $code-font;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+
+  .brand-ui {
+    color: $accent-primary;
+  }
+
+  .brand-forge {
+    color: $text-primary;
+  }
+
+  &:hover {
+    .brand-forge {
+      color: $accent-primary;
+    }
+  }
 }
 
-.navbar-lewagon .navbar-brand img {
-  width: 60px;
+.navbar-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-.navbar-lewagon .nav-link {
-  color: rgb(222, 222, 222);
+.nav-action {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background: $bg-medium;
+    color: $text-primary;
+  }
+
+  &.logout:hover {
+    background: rgba($accent-red, 0.15);
+    color: $accent-red;
+  }
 }

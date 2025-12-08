@@ -1,3 +1,4 @@
+// Dark theme delete button
 .delete-btn {
   position: absolute;
   top: 15px;
@@ -6,24 +7,45 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: $bg-medium;
+  border: 1px solid $border-color;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
 
   .delete-link,
   a {
     text-decoration: none;
     font-size: 1.2rem;
     line-height: 1;
-    color: #343a40;
+    color: $text-secondary;
   }
 
   &:hover {
-    background-color: #ffeaea;
+    background: rgba($accent-red, 0.15);
+    border-color: $accent-red;
     transform: scale(1.1);
     cursor: pointer;
+
+    .delete-link,
+    a {
+      color: $accent-red;
+    }
+  }
+}
+
+// Delete button in component list
+.delete-button {
+  color: $text-muted;
+  font-size: 0.8rem;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($accent-red, 0.15);
+    color: $accent-red;
   }
 }

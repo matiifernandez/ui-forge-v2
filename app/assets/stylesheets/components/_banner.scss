@@ -1,20 +1,37 @@
+// Dark theme hero banner
 .banner {
   background-size: cover;
   background-position: center;
-  padding: 250px 0;
+  padding: 200px 0;
+  position: relative;
 }
 
 .banner h1 {
   margin: 0;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  font-size: 32px;
-  font-weight: bold;
+  color: $text-primary;
+  font-family: $headers-font;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .banner p {
-  font-size: 20px;
-  color: white;
-  opacity: 0.8;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.banner .btn-primary {
+  background: $accent-blue;
+  border-color: $accent-blue;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: lighten($accent-blue, 8%);
+    border-color: lighten($accent-blue, 8%);
+    transform: translateY(-2px);
+  }
 }

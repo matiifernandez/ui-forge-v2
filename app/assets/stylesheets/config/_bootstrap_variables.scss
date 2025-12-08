@@ -1,28 +1,66 @@
-// This is where you override default Bootstrap variables
-// 1. Find all Bootstrap variables that you can override at the end of each component's documentation under the `Sass variables` anchor
-// e.g. here are the ones you can override for the navbar https://getbootstrap.com/docs/5.3/components/navbar/#sass-variables
-// 2. These variables are defined with default value (see https://robots.thoughtbot.com/sass-default)
-// 3. You can override them below!
+// Dark theme Bootstrap overrides - VSCode inspired
 
 // General style
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
-$body-bg:                $light-gray;
-$font-size-base:         1rem;
+$font-family-monospace:  $code-font;
+$body-bg:                $bg-darkest;
+$font-size-base:         0.9375rem;
 
 // Colors
-$body-color: $gray;
-$primary:    $blue;
-$success:    $green;
-$info:       $yellow;
-$danger:     $red;
-$warning:    $orange;
+$body-color:    $text-primary;
+$primary:       $accent-primary;
+$secondary:     $bg-light;
+$success:       $accent-green;
+$info:          $accent-blue;
+$danger:        $accent-red;
+$warning:       $accent-yellow;
+$light:         $bg-medium;
+$dark:          $bg-darkest;
 
-// Buttons & inputs' radius
-$border-radius-sm:            .0625rem;
-$border-radius:               .125rem;
-$border-radius-lg:            .25rem;
-$border-radius-xl:            .5rem;
-$border-radius-xxl:           1rem;
+// Links
+$link-color:              $accent-primary;
+$link-hover-color:        lighten($accent-primary, 10%);
 
-// Override other variables below!
+// Cards
+$card-bg:                 $bg-dark;
+$card-border-color:       $border-color;
+$card-cap-bg:             $bg-medium;
+
+// Inputs
+$input-bg:                $bg-medium;
+$input-border-color:      $border-color;
+$input-color:             $text-primary;
+$input-placeholder-color: $text-muted;
+$input-focus-border-color: $accent-primary;
+$input-focus-box-shadow:  0 0 0 0.2rem rgba($accent-primary, 0.25);
+
+// Buttons
+$btn-border-radius:       0.375rem;
+$btn-border-radius-sm:    0.25rem;
+$btn-border-radius-lg:    0.5rem;
+
+// Modals
+$modal-content-bg:        $bg-dark;
+$modal-content-border-color: $border-color;
+$modal-header-border-color: $border-color;
+$modal-footer-border-color: $border-color;
+
+// Navs/Tabs
+$nav-tabs-border-color:   $border-color;
+$nav-tabs-link-active-bg: $bg-medium;
+$nav-tabs-link-active-color: $text-primary;
+$nav-tabs-link-active-border-color: $border-color $border-color $bg-medium;
+
+// Dropdowns
+$dropdown-bg:             $bg-dark;
+$dropdown-border-color:   $border-color;
+$dropdown-link-color:     $text-primary;
+$dropdown-link-hover-bg:  $bg-medium;
+
+// General border radius
+$border-radius-sm:        0.25rem;
+$border-radius:           0.375rem;
+$border-radius-lg:        0.5rem;
+$border-radius-xl:        0.75rem;
+$border-radius-xxl:       1rem;

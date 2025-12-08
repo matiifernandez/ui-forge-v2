@@ -1,14 +1,52 @@
+// Dark theme card category (project cards)
 .card-category {
   background-size: cover;
   background-position: center;
   height: 180px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  color: $text-primary;
+  font-family: $headers-font;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 1rem;
+
+  // Subtle overlay for text readability
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba($bg-darkest, 0.1), rgba($bg-darkest, 0.4));
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  // Text above overlay but below stretched-link
+  > *:not(.stretched-link) {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  // Stretched link needs highest z-index
+  .stretched-link {
+    z-index: 2;
+  }
+
+  // Default gradient for projects without image
+  &.no-image {
+    background: linear-gradient(135deg, $bg-medium 0%, $bg-dark 50%, $accent-primary 150%);
+
+    &::before {
+      background: none;
+    }
+  }
 }

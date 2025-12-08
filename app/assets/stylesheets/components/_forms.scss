@@ -1,0 +1,128 @@
+// Dark theme form styles
+
+// File input styling - force dark text on hover to ensure readability
+.form-control[type="file"] {
+  background: $bg-medium !important;
+  border-color: $border-color;
+  color: $text-primary !important;
+  cursor: pointer;
+
+  &::file-selector-button {
+    background: $bg-light !important;
+    border: none;
+    border-right: 1px solid $border-color;
+    color: $text-primary !important;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  &:hover::file-selector-button {
+    background: $accent-primary !important;
+    color: #000 !important;
+  }
+}
+
+// Webkit file input (Chrome, Safari)
+input[type="file"]::-webkit-file-upload-button {
+  background: $bg-light !important;
+  border: none;
+  border-right: 1px solid $border-color;
+  color: $text-primary !important;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+input[type="file"]:hover::-webkit-file-upload-button {
+  background: $accent-primary !important;
+  color: #000 !important;
+}
+
+// Form labels
+.form-label,
+label {
+  color: $text-secondary;
+}
+
+// Form text/hints
+.form-text {
+  color: $text-muted;
+}
+
+// Select inputs
+.form-select {
+  background-color: $bg-medium;
+  border-color: $border-color;
+  color: $text-primary;
+
+  &:focus {
+    background-color: $bg-medium;
+    border-color: $accent-primary;
+    box-shadow: 0 0 0 0.2rem rgba($accent-primary, 0.25);
+  }
+}
+
+// Modal dark theme
+.modal-content {
+  background: $bg-dark;
+  border: 1px solid $border-color;
+
+  .modal-header {
+    border-bottom-color: $border-color;
+
+    .modal-title {
+      color: $text-primary;
+    }
+
+    .btn-close {
+      filter: invert(1);
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .modal-footer {
+    border-top-color: $border-color;
+  }
+}
+
+// Simple Form specific
+.form-group {
+  margin-bottom: 1rem;
+}
+
+// Details/Summary for color customization
+details {
+  summary {
+    color: $text-muted;
+    cursor: pointer;
+
+    &:hover {
+      color: $text-secondary;
+    }
+  }
+}
+
+// Color input
+input[type="color"] {
+  background: $bg-medium;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 2px;
+  height: 38px;
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 2px;
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+  }
+}

@@ -1,15 +1,31 @@
+// Dark theme action buttons
 .component-button {
-    background: linear-gradient(to right, #000000, #ff4500) !important; /* Use !important only if necessary */
-    border: none !important;
-    color: #ffffff; /* Example: Override text color */
-    transition: all 0.2s ease-in-out;
+  background: $accent-green;
+  border: none;
+  color: $bg-darkest;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .component-button:hover,
 .component-button:active,
 .component-button:focus {
-    background: linear-gradient(to right,  #000000, #ff4500) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
-    color: #ffffff !important;
+  background: lighten($accent-green, 8%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba($accent-green, 0.3);
+  color: $bg-darkest;
+}
+
+// Secondary action buttons
+.btn-outline-secondary {
+  border-color: $border-color;
+  color: $text-secondary;
+
+  &:hover {
+    background: $bg-medium;
+    border-color: $border-color;
+    color: $text-primary;
+  }
 }

@@ -1,0 +1,94 @@
+<%= turbo_frame_tag "project_form" do %>
+<div data-controller="loading">
+  <%= simple_form_for @project, url: projects_path, data: { action: "submit->loading#submit" } do |f| %>
+    <div data-loading-target="form">
+      <div class="modal-body">
+        <% if @project.errors.any? %>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <% @project.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <%= f.input :title, placeholder: "title for your newly forged UI kit..." %>
+        <%= f.input :description, placeholder: "be as descriptive as possible..." %>
+
+        <div data-controller="color-palette" class="mb-3">
+          <label class="form-label">Color Palette</label>
+
+          <!-- Preset Palettes -->
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <% [
+              { name: "Ocean", primary: "#0077B6", secondary: "#90E0EF" },
+              { name: "Sunset", primary: "#F77F00", secondary: "#FCBF49" },
+              { name: "Forest", primary: "#2D6A4F", secondary: "#95D5B2" },
+              { name: "Berry", primary: "#7B2CBF", secondary: "#C77DFF" },
+              { name: "Slate", primary: "#334155", secondary: "#94A3B8" },
+              { name: "Rose", primary: "#BE123C", secondary: "#FDA4AF" },
+              { name: "Midnight", primary: "#1E1B4B", secondary: "#6366F1" },
+              { name: "Earth", primary: "#78350F", secondary: "#D97706" }
+            ].each do |palette| %>
+              <button type="button"
+                      class="btn btn-sm palette-btn"
+                      data-color-palette-target="paletteBtn"
+                      data-action="click->color-palette#selectPalette"
+                      data-primary="<%= palette[:primary] %>"
+                      data-secondary="<%= palette[:secondary] %>"
+                      style="border: 2px solid #dee2e6; padding: 4px 8px;">
+                <span style="display: inline-block; width: 14px; height: 14px; background: <%= palette[:primary] %>; border-radius: 3px; vertical-align: middle;"></span>
+                <span style="display: inline-block; width: 14px; height: 14px; background: <%= palette[:secondary] %>; border-radius: 3px; vertical-align: middle;"></span>
+                <span class="ms-1" style="font-size: 12px;"><%= palette[:name] %></span>
+              </button>
+            <% end %>
+          </div>
+
+          <!-- Preview -->
+          <div data-color-palette-target="preview" class="mb-3"></div>
+
+          <!-- Custom Color Inputs -->
+          <details class="mb-2">
+            <summary class="text-muted" style="cursor: pointer; font-size: 14px;">Customize colors</summary>
+            <div class="row mt-2">
+              <div class="col-6">
+                <%= f.input :primary_color, as: :color, label: "Primary",
+                    input_html: {
+                      data: {
+                        color_palette_target: "primaryColor",
+                        action: "change->color-palette#colorChanged"
+                      }
+                    } %>
+              </div>
+              <div class="col-6">
+                <%= f.input :secondary_color, as: :color, label: "Secondary",
+                    input_html: {
+                      data: {
+                        color_palette_target: "secondaryColor",
+                        action: "change->color-palette#colorChanged"
+                      }
+                    } %>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <%= f.input :photo, as: :file %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%= f.button :submit, "Submit", class: "btn btn-primary", data: { loading_target: "submitBtn" } %>
+      </div>
+    </div>
+    <div data-loading-target="loading" class="d-none">
+      <div class="modal-body text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <h5>Creating your project...</h5>
+        <p class="text-muted">Generating initial components with AI. This may take a moment.</p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% end %>

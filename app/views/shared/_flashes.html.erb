@@ -1,12 +1,14 @@
 <% if notice %>
-  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <%= notice %>
+  <div data-controller="swal"
+       data-swal-type-value="notice"
+       data-swal-message-value="<%= notice %>"
+       data-swal-toast-value="true">
   </div>
 <% end %>
 <% if alert %>
-  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <%= alert %>
+  <div data-controller="swal"
+       data-swal-type-value="alert"
+       data-swal-message-value="<%= alert %>"
+       data-swal-toast-value="true">
   </div>
 <% end %>
