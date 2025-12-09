@@ -67,6 +67,15 @@ Visit `http://localhost:3000`
 3. **Iterate**: Use the chat interface to refine components with natural language
 4. **Export**: Copy the generated HTML/CSS for use in your projects
 
+## Quick look
+
+<img width="374" height="735" alt="Screenshot 2025-12-09 at 1 47 12 pm" src="https://github.com/user-attachments/assets/555cb1cb-e3e7-4314-a568-1e7c40575960" />
+<img width="374" height="735" alt="Screenshot 2025-12-09 at 1 47 29 pm" src="https://github.com/user-attachments/assets/4002b65d-dea6-4b86-a2a6-bb838309fbf3" />
+
+<img width="1458" height="732" alt="Screenshot 2025-12-09 at 1 52 17 pm" src="https://github.com/user-attachments/assets/fb083dd1-c997-411c-bb85-65f2af867c74" />
+
+
+
 ## License
 
-MIT
+Kizuna Lingua team 2025.
