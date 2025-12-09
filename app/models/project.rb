@@ -104,11 +104,47 @@ class Project < ApplicationRecord
   end
 
   def update_component_from_response(component, html_and_css)
+    html = clean_escaped_quotes(html_and_css['html'])
+    css = clean_escaped_quotes(html_and_css['css'])
+
+    # Generate fallback CSS if AI returned null/empty
+    if css.blank? && html.present?
+      css = generate_fallback_css(component.name, html)
+    end
+
     component.update!(
-      html_code: clean_escaped_quotes(html_and_css['html']),
-      css_code: clean_escaped_quotes(html_and_css['css']),
+      html_code: html,
+      css_code: css,
       bootstrap: html_and_css['bootstrap'] || false,
     )
+  end
+
+  def generate_fallback_css(component_name, html)
+    # Extract class names from HTML to generate basic styling
+    classes = html.scan(/class=['"]([\w-]+)['"]/).flatten.uniq
+
+    css_rules = classes.map do |klass|
+      <<~CSS
+        .#{klass} {
+          padding: 1rem 2rem;
+          background: linear-gradient(135deg, #{primary_color}, #{secondary_color});
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          font-family: system-ui, sans-serif;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .#{klass}:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+      CSS
+    end.join("\n")
+
+    css_rules.presence || "/* No styles generated */"
   end
 
   def clean_escaped_quotes(str)
@@ -119,19 +155,81 @@ class Project < ApplicationRecord
 
   def message_prompt(component_name)
     <<~PROMPT
-      Generate a #{component_name} component.
-      Background color: #{primary_color}
-      Accent color: #{secondary_color}
-      Project: #{self.title} - #{self.description}
+      Generate a visually stunning #{component_name} component for "#{self.title}" - #{self.description}
 
-      RESPOND WITH ONLY THIS JSON FORMAT, NOTHING ELSE:
+      DESIGN REQUIREMENTS:
+      - Primary color: #{primary_color}
+      - Accent color: #{secondary_color}
+      - Style: Modern, professional, visually impressive
+      - Must include smooth CSS animations/transitions
+      - Use gradients, shadows, and depth effects
+      - Include hover states and micro-interactions
+      - Typography should be elegant with proper hierarchy
+
+      SPECIFIC GUIDELINES FOR #{component_name.upcase}:
+      #{component_specific_guidelines(component_name)}
+
+      TECHNICAL RULES:
+      - Use Font Awesome icons (fa-solid, fa-brands) for visual interest
+      - NO img tags - use CSS backgrounds, gradients, or icons instead
+      - Include @keyframes animations where appropriate
+      - Use CSS variables for colors when possible
+      - Ensure responsive design principles
+
+      RESPOND WITH ONLY THIS JSON FORMAT:
       {"html": "<your html here>", "css": "<your css here>", "bootstrap": false}
 
-      Your response must start with { and end with }. No explanations.
+      CRITICAL: Both html and css fields MUST contain actual code strings, never null or empty.
+      The CSS must style all elements in the HTML with colors, animations, and effects.
     PROMPT
   end
 
+  def component_specific_guidelines(component_name)
+    case component_name.downcase
+    when 'banner'
+      <<~GUIDELINES
+        - Create a hero section with compelling visual hierarchy
+        - Include a catchy headline and subtext
+        - Add a prominent call-to-action button with hover animation
+        - Use layered backgrounds (gradients, patterns, or shapes)
+        - Consider adding floating/animated decorative elements
+        - Minimum height: 400px for impact
+      GUIDELINES
+    when 'navbar'
+      <<~GUIDELINES
+        - Design a sleek navigation bar with the project name as logo
+        - Include nav links with smooth hover underline animations
+        - Add a subtle glass-morphism or blur effect
+        - Include a hamburger menu icon for mobile (visual only)
+        - Consider adding a subtle shadow on scroll effect style
+        - Use flexbox for perfect alignment
+      GUIDELINES
+    when 'button'
+      <<~GUIDELINES
+        - Create an eye-catching button with multiple states
+        - Include a satisfying hover animation (scale, glow, or ripple)
+        - Add an icon alongside the text
+        - Consider gradient backgrounds or border animations
+        - Include a subtle pressed/active state
+        - Make it feel tactile and interactive
+      GUIDELINES
+    else
+      <<~GUIDELINES
+        - Create something unique and visually interesting
+        - Focus on modern design trends
+        - Include animations and hover effects
+        - Make it memorable and professional
+      GUIDELINES
+    end
+  end
+
   def create_system_prompt
-    'You output only valid JSON. No explanations. No markdown. Response format: {"html": "...", "css": "...", "bootstrap": false}'
+    <<~PROMPT
+      You are an expert UI/UX designer who creates beautiful, modern web components.
+      You excel at creating visually stunning designs with smooth animations, elegant typography, and professional aesthetics.
+      You always include hover effects, transitions, and micro-interactions to make components feel alive.
+      Output ONLY valid JSON. No explanations. No markdown.
+      Response format: {"html": "...", "css": "...", "bootstrap": false}
+    PROMPT
   end
 end

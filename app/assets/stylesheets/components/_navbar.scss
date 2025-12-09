@@ -7,13 +7,23 @@
   border-bottom: 1px solid $border-color;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1050;
   padding: 0.5rem 1rem;
+  // Ensure navbar is always clickable above stretched-links
+  isolation: isolate;
 
   .container-fluid {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  // All interactive elements in navbar must be above any stacking context
+  a, button {
+    position: relative;
+    z-index: 1;
   }
 }
 

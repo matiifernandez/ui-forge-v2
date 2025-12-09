@@ -35,9 +35,10 @@
 
 .title-bar {
   position: sticky;
-  top: 70px;
+  top: 49px; // navbar height (padding 0.5rem*2 + content ~33px)
   z-index: 10;
   background: $bg-darkest;
+  margin-top: 0 !important;
   margin-bottom: 1.5rem;
   padding: 1rem 0;
   border-bottom: 1px solid $border-color;
